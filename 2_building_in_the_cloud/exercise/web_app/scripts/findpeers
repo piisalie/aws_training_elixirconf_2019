@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
+sleep 10
+
+/home/app/web_app/bin/web_app rpc "WebApp.ReleaseTasks.find_peers()"

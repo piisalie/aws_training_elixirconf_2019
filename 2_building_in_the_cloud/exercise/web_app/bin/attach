@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+_host=$(ssh -T $1 "known_hosts" | tail -n 1)
+
+ssh -t -J $1 app@$_host "web_app/bin/web_app remote"

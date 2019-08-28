@@ -1,0 +1,12 @@
+[Unit]
+Description=systemd-cloudwatch-logs
+Wants=basic.target
+After=basic.target network.target
+
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/bin/systemd-cloudwatch-logs /usr/local/etc/cloudwatch_logs.conf
+KillMode=process
+Restart=on-failure
+RestartSec=42s

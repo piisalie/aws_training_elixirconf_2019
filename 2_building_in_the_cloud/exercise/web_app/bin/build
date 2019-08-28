@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+_archive=$(git rev-parse --short HEAD).tar.gz
+
+git archive --format=tar.gz -o $_archive HEAD
+scp ./$_archive $1:~/
+
+rm $_archive
+
+ssh -T $1 <<-SSHCMDS
+    # TODO:  commands to build a release here…
+SSHCMDS

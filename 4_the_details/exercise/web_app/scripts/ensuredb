@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+/home/app/web_app/bin/web_app eval "WebApp.ReleaseTasks.ensure_db()"

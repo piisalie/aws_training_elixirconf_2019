@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sudo systemctl enable web_app
+sudo systemctl start web_app

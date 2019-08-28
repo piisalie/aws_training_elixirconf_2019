@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/app/web_app
+  - source: scripts/web_app.service
+    destination: /etc/systemd/system
+
+hooks:
+  AfterInstall:
+    - location: scripts/setpermissions
+      timeout: 30
+      runas: app
+    - location: scripts/getenv
+      timeout: 30
+      runas: root
+  ApplicationStart:
+    - location: scripts/start
+      timeout: 30
+      runas: app
+  BeforeAllowTraffic:
+    - location: scripts/findpeers
+      timeout: 30
+      runas: app

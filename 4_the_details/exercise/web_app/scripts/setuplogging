@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+# This should really be built and hosted in your own internal storage
+# to prevent certain types of attacks and instability
+sudo wget -O /usr/local/bin/systemd-cloudwatch-logs https://github.com/advantageous/systemd-cloud-watch/releases/download/v0.2.1/systemd-cloud-watch_linux
+
+sudo chmod +x /usr/local/bin/systemd-cloudwatch-logs
+
+sudo systemctl enable cloudwatch_logs
+sudo systemctl start cloudwatch_logs

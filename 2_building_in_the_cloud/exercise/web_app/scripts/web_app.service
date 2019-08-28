@@ -1,0 +1,19 @@
+[Unit]
+Description=Elixir In The Jungle
+After=network.target
+
+[Service]
+Type=simple
+User=app
+Group=app
+WorkingDirectory=/home/app/web_app
+ExecStart=/home/app/web_app/bin/web_app start
+Restart=on-failure
+RestartSec=5
+Environment=LANG=en_US.UTF-8
+EnvironmentFile=/etc/environment
+SyslogIdentifier=webapp
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,35 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/app/web_app
+  - source: scripts/web_app.service
+    destination: /etc/systemd/system
+  - source: scripts/cloudwatch_logs.service
+    destination: /etc/systemd/system
+  - source: scripts/cloudwatch_logs.conf
+    destination: /usr/local/etc/
+
+hooks:
+  AfterInstall:
+    - location: scripts/setpermissions
+      timeout: 30
+      runas: app
+    - location: scripts/getenv
+      timeout: 30
+      runas: root
+    - location: scripts/setuplogging
+      timeout: 120
+      runas: root
+    - location: scripts/ensuredb
+      timeout: 30
+      runas: app
+  ApplicationStart:
+    - location: scripts/start
+      timeout: 30
+      runas: app
+  BeforeAllowTraffic:
+    - location: scripts/findpeers
+      timeout: 30
+      runas: app
