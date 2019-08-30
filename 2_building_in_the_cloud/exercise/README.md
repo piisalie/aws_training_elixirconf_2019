@@ -1,10 +1,5 @@
 # Elixir in The Jungle
 
-protips:
-- .env file for credentials
-- tags
-- terraform workspaces
-
 ## Part 2 - The VPC, and the Bastion
 
 To use these files, you must:
@@ -19,6 +14,15 @@ To use these files, you must:
    workspace name for the files in this config is `example`
 - `terraform plan` will describe what changes are needed
 - `terraform apply` will apply the changes
+
+
+### Teardown
+
+Use `terraform destroy` to tear down all of the created infrastructure.
+
+If you have objects in the S3 build bucket, Terraform will not be able to destroy the bucket.
+
+You will need to empty the bucket, or remove it by hand via the AWS console.
 
 Resources:
 - AWS access keys https://docs.aws.amazon.com/general/latest/gr/managing-aws-access-keys.html

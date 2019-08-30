@@ -11,6 +11,7 @@ Terraform Commands:
 - `terraform plan` will describe what changes are needed
 - `terraform apply` will apply the changes
 
+
 ### The Initial AutoScaing Group
 
 CodeDeploy Blue/Green Deployments require an Auto Scaling Group to copy
@@ -18,7 +19,25 @@ configuration from.  Once copied it will destroy the old auto scaling
 group.  For this reason, we really only need to create an ASG via Terraform
 during initial provisioning.  This is done via an `initial_asg` option.
 
-`terraform apply -var "inital_asg=true"`
+`terraform apply -var "initial_asg=true"`
+
+
+### Teardown
+
+If you run `terraform destroy` you may see an error that terraform cannot
+destroy the app server launch config because it is in use.
+
+This happens when CodeDeploy has successfully deployed your application
+creating a copy of the initial ASG.
+
+This copy will be re-using the same launch config.
+
+In order to complete the destroy, you will need to manually find this ASG
+copy created by CodeDeploy and remove it first.
+
+It is usually named something like `CodeDeploy-app_name-deploymentid` and
+it can be found in the EC2 dashboard on the left hand navigation at the bottom
+under "autoscaling groups".
 
 
 ### The Launch Config Oddity

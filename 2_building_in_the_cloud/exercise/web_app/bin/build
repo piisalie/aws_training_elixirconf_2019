@@ -2,7 +2,8 @@
 
 set -e
 
-_archive=$(git rev-parse --short HEAD).tar.gz
+_basename=$(git rev-parse --short HEAD)
+_archive=$_basename.tar.gz
 
 git archive --format=tar.gz -o $_archive HEAD
 scp ./$_archive $1:~/
@@ -10,5 +11,24 @@ scp ./$_archive $1:~/
 rm $_archive
 
 ssh -T $1 <<-SSHCMDS
-    # TODO:  commands to build a release here…
+    mkdir -p builds &&
+    tar -C builds -xf $_archive &&
+    cd builds &&
+    mix local.rebar --force &&
+    mix local.hex --force &&
+    mix deps.get --only prod &&
+    cd assets &&
+    npm install &&
+    npm run deploy &&
+    cd .. &&
+    export MIX_ENV=prod &&
+    mix phx.digest &&
+    mix release --overwrite --path ./release &&
+    cp -r ./scripts ./release/ &&
+    cp ./appspec.yml ./release &&
+    tar -C release . -zcf latest.tar.gz &&
+    publish_release ./latest.tar.gz latest.tar.gz &&
+    cd .. &&
+    rm $_archive &&
+    rm -rf builds
 SSHCMDS
