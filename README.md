@@ -45,6 +45,14 @@ to add your credentials to the environment.
 
 ### Terraform Shared State
 
+** Note **
+
+The Bucket used for terraform state is created and maintained outside of
+Terraform.
+
+It will need to have a unique name, and be changed in each `main.tf` file
+for your use case.
+
 Some variables in Part 3, are dependent on state/outputs from Part 2.
 
 This is done via the `terraform_remote_state` data block found in the
@@ -65,7 +73,6 @@ data "terraform_remote_state" "vpc" {
 
 Variables that are output from the VPC remote state can then be used like:
 `data.terraform_remote_state.vpc.outputs.public_subnet_id`
-
 
 ### Terraform workspaces
 
